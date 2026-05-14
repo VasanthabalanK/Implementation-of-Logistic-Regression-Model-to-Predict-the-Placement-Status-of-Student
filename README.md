@@ -7,21 +7,70 @@ To write a program to implement the the Logistic Regression Model to Predict the
 1. Hardware – PCs
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
-## Algorithm
-1.Import the required packages and print the present data.
+## Algorithm:
 
-2.Print the placement data and salary data.
+1.Load the placement dataset and remove unnecessary columns and duplicate values.
 
-3.Find the null and duplicate values.
+2.Convert categorical data into numerical values using Label Encoding.
 
-4.Using logistic regression find the predicted values of accuracy , confusion matrices.
+3.Split the dataset into training and testing sets, then train the Logistic Regression model.
 
-5.Display the results.
+4.Predict the results, calculate accuracy, and display the confusion matrix and classification report.
 
-## Program & Output:
-<img width="818" height="635" alt="Screenshot 2026-05-13 113125" src="https://github.com/user-attachments/assets/d76bc40a-621f-45a3-8b0a-7bfef972b579" />
+## Program:
+/*
+Program to implement the the Logistic Regression Model to Predict the Placement Status of Student.
+```
+Developed by: Vasanthabalan K
 
-<img width="816" height="630" alt="image" src="https://github.com/user-attachments/assets/83fa4bb8-5d34-4beb-9ac5-17d58e0102d6" />
+RegisterNumber: 212224230296
+
+
+import pandas as pd
+import numpy as np
+df=pd.read_csv(r"Placement_Data.csv")
+df
+df1=df.copy()
+df1
+df1=df1.drop(['sl_no','salary'],axis=1)
+df1.isnull().sum()
+df1.duplicated().sum()
+df1
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+df1['gender']=le.fit_transform(df1['gender'])
+df1['ssc_b']=le.fit_transform(df1['ssc_b'])
+df1['hsc_b']=le.fit_transform(df1['hsc_b'])
+df1['hsc_s']=le.fit_transform(df1['hsc_s'])
+df1['degree_t']=le.fit_transform(df1['degree_t'])
+df1['workex']=le.fit_transform(df1['workex'])
+df1['specialisation']=le.fit_transform(df1['specialisation'])
+df1['status']=le.fit_transform(df1['status'])
+df1
+x=df1.iloc[:,:-1]
+x
+y=df1['status']
+y
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
+from sklearn.linear_model import LogisticRegression
+model=LogisticRegression(solver="liblinear")
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+accuracy=accuracy_score(y_test,y_pred)
+confusion=confusion_matrix(y_test,y_pred)
+cr=classification_report(y_test,y_pred)
+print("Accuracy score:",accuracy)
+print("\nConfusion matrix:\n",confusion)
+print("\nClassification Report:\n",cr)
+from sklearn import metrics
+cn_display=metrics.ConfusionMatrixDisplay(confusion_matrix=confusion,display_labels=['true','false'])
+cn_display.plot()
+```
+
+## Output:
+<img width="774" height="636" alt="image" src="https://github.com/user-attachments/assets/9741d7f8-36c8-47ac-a843-aa1b83b2ead8" />
 
 
 
